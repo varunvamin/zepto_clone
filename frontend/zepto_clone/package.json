@@ -1,0 +1,17 @@
+{
+  "name": "zepto-clone",
+  "version": "0.1.0",
+  "description": "Minimal Zepto-like helper for learning",
+  "private": true,
+  "scripts": {
+    "start": "npx http-server ./demo -p 8080",
+    "build": "npx esbuild src/zepto.js --bundle --minify --outfile=dist/zepto.min.js",
+    "test": "jest --env=jsdom"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.18.0",
+    "jest": "^29.0.0"
+  }
+}

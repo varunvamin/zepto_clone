@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Zepto Clone Tests</title>
+  <style>body{font-family:system-ui,Segoe UI,Arial;padding:20px} .pass{color:green} .fail{color:red}</style>
+</head>
+<body>
+  <h1>Zepto Clone — Basic Tests</h1>
+  <div id="results"></div>
+  <script src="../src/zepto.js"></script>
+  <script>
+    function assert(name, cond){
+      var el = document.createElement('div');
+      el.textContent = name + ': ' + (cond ? 'PASS' : 'FAIL');
+      el.className = cond ? 'pass' : 'fail';
+      document.getElementById('results').appendChild(el);
+      return !!cond;
+    }
+
+    // Create test DOM
+    var container = document.createElement('div');
+    container.id = 'test-root';
+    container.innerHTML = '<button id="tbtn">hi</button><div id="tout"></div>';
+    document.body.appendChild(container);
+
+    // Tests
+    var ok = true;
+    ok = ok && assert('$ returns object', typeof $ === 'function');
+    ok = ok && assert('selects element', $('#tbtn').nodes && $('#tbtn').nodes.length === 1);
+
+    // on/off
+    var called = false;
+    function handler(){ called = true; }
+    $('#tbtn').on('click', handler);
+    document.getElementById('tbtn').click();
+    ok = ok && assert('.on triggers handler', called === true);
+    $('#tbtn').off('click', handler);
+    called = false;
+    document.getElementById('tbtn').click();
+    ok = ok && assert('.off removes handler', called === false);
+
+    // attr / text / css
+    $('#tout').attr('data-x', '123');
+    ok = ok && assert('attr get/set', $('#tout').attr('data-x') === '123');
+    $('#tout').text('hello');
+    ok = ok && assert('text set/get', $('#tout').text() === 'hello');
+    $('#tout').css('color', 'rgb(255, 0, 0)');
+    ok = ok && assert('css set/get', $('#tout').css('color').indexOf('rgb') === 0);
+
+    var summary = document.createElement('h2');
+    summary.textContent = ok ? 'ALL TESTS PASS' : 'SOME TESTS FAILED';
+    summary.style.color = ok ? 'green' : 'red';
+    document.body.insertBefore(summary, document.getElementById('results'));
+  </script>
+</body>
+</html>

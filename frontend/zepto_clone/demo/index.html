@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Zepto Clone Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; }
+    .btn { padding: 8px 12px; background:#0078d4; color:#fff; border-radius:4px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Zepto Clone — Demo</h1>
+  <div id="out">Click the button</div>
+  <button id="btn" class="btn">Click me</button>
+
+  <script src="../src/zepto.js"></script>
+  <script>
+    // DOM ready shorthand
+    $(function(){
+      $('#btn').on('click', function(){
+        var count = parseInt($('#out').attr('data-count') || '0', 10) + 1;
+        $('#out').attr('data-count', count).text('Clicked ' + count + ' times');
+        $('#out').css('color', count % 2 ? 'crimson' : 'teal');
+      });
+
+      // Simple ajax example (uncomment and set a valid URL)
+      // zepto.ajax({ url: '/api/ping', type: 'GET' }).then(console.log).catch(console.error);
+    });
+  </script>
+</body>
+</html>
