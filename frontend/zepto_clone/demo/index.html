@@ -5,26 +5,55 @@
   <title>Zepto Clone Demo</title>
   <style>
     body { font-family: system-ui, sans-serif; padding: 20px; }
-    .btn { padding: 8px 12px; background:#0078d4; color:#fff; border-radius:4px; cursor:pointer; }
+    .btn { padding: 8px 12px; background:#0078d4; color:#fff; border-radius:4px; cursor:pointer; margin-right: 8px; }
+    .selected { border: 2px solid #0078d4; padding: 4px; }
   </style>
 </head>
 <body>
   <h1>Zepto Clone — Demo</h1>
   <div id="out">Click the button</div>
   <button id="btn" class="btn">Click me</button>
+  <button id="fade" class="btn">Fade</button>
+  <button id="slide" class="btn">Slide</button>
+  <button id="animate" class="btn">Animate</button>
+  <button id="add" class="btn">Add item</button>
+  <div id="items"></div>
+  <div id="box" style="width:200px;height:80px;background:#f0f0f0;margin-top:16px;line-height:80px;text-align:center;">Animate me</div>
 
   <script src="../src/zepto.js"></script>
   <script>
-    // DOM ready shorthand
     $(function(){
+      var count = 0;
       $('#btn').on('click', function(){
-        var count = parseInt($('#out').attr('data-count') || '0', 10) + 1;
+        count += 1;
         $('#out').attr('data-count', count).text('Clicked ' + count + ' times');
-        $('#out').css('color', count % 2 ? 'crimson' : 'teal');
+        $('#out').css({ color: count % 2 ? 'crimson' : 'teal', fontWeight: '700' });
       });
 
-      // Simple ajax example (uncomment and set a valid URL)
-      // zepto.ajax({ url: '/api/ping', type: 'GET' }).then(console.log).catch(console.error);
+      $('#fade').on('click', function(){
+        $('#box').fadeToggle(300);
+      });
+
+      $('#slide').on('click', function(){
+        $('#box').slideToggle(300);
+      });
+
+      $('#animate').on('click', function(){
+        $('#box').animate({ width: '300px', backgroundColor: '#ffcc00' }, 300, 'ease', function(){
+          setTimeout(function(){ $('#box').animate({ width: '200px', backgroundColor: '#f0f0f0' }, 300); }, 400);
+        });
+      });
+
+      $('#add').on('click', function(){
+        $('#items').append('<div class="item">Item ' + (count + 1) + '</div>');
+      });
+
+      $('#items').on('click', '.item', function(){
+        $(this).toggleClass('selected');
+      });
+
+      var query = $.param({ name: 'Zepto', version: 'clone' });
+      console.log('Ajax query string:', query);
     });
   </script>
 </body>
